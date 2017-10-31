@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.example.praew" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <icon density="mdpi" height="57" platform="android" src="" width="57" />
-    <name>PSUPin</name>
+<widget id="com.example.psu" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>pin</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
     </description>
@@ -9,6 +8,7 @@
         Apache Cordova Team
     </author>
     <content src="index.html" />
+    <plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -23,7 +23,13 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <engine name="android" spec="^6.3.0" />
-    <engine name="browser" spec="^5.0.1" />
-    <plugin name="cordova-plugin-whitelist" spec="^1.3.2" />
+    <engine name="android" spec="~6.3.0" />
+    <engine name="ios" spec="~4.5.2" />
+    <plugin name="cordova-plugin-geolocation" spec="cordova-plugin-geolocation">
+        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value=" " />
+    </plugin>
+    <plugin name="cordova-plugin-camera" spec="cordova-plugin-camera">
+        <variable name="CAMERA_USAGE_DESCRIPTION" value=" " />
+        <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value=" " />
+    </plugin>
 </widget>

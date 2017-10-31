@@ -10,7 +10,7 @@
         "spec": ">=1.0.0 <2.0.0",
         "type": "range"
       },
-      "E:\\PSUPIN\\psupin"
+      "C:\\PsuPin-Mobile-App-035"
     ]
   ],
   "_from": "cordova-plugin-whitelist@>=1.0.0 <2.0.0",
@@ -45,7 +45,7 @@
   "_shasum": "5b6335feb9f5301f3c013b9096cb8885bdbd5076",
   "_shrinkwrap": null,
   "_spec": "cordova-plugin-whitelist@1",
-  "_where": "E:\\PSUPIN\\psupin",
+  "_where": "C:\\PsuPin-Mobile-App-035",
   "author": {
     "name": "Apache Software Foundation"
   },

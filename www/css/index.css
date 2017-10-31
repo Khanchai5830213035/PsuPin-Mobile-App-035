@@ -1,0 +1,41 @@
+#googleMap{
+    width:100%;
+    height:100%;
+}
+#iconHead {
+    margin-right: 5px;
+}
+#addImg{
+    margin-left: 175px;
+}
+#containerContent{
+    padding: 2px;
+}
+.row{
+    padding-top: 15px;
+}
+.set{
+    margin: 15px;
+}
+.size{
+    width: 280px;
+}
+.tweet-header{
+    margin-left: 15px;
+    margin-right: 15px;
+}
+#dateCss{
+    padding-left: 20px;
+}
+#des{
+    margin-right: 5px;
+}
+#blank{
+margin-left: 290px;
+}
+#head{
+    font-family: 'Patua One', cursive;
+}
+.tweet-header{
+    font-family: 'Patua One', cursive;
+}

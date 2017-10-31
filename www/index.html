@@ -2,350 +2,190 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="https://fonts.googleapis.com/css?family=Mitr" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
-  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
-  <link rel="stylesheet" href="index.css">
-  <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.js"></script>
-  <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
-  <script type="text/javascript" src="cordova.js"></script>
-  <script type="text/javascript" src="index.js"></script>
- 
-  <script id="template" type="x-tmpl-mustache">
-      <div align="center">
-          <img src="{{photo}}">
-          <p align = "left">{{description}}</p>
-          <ons-button class="option-arrow" modifier="quiet" onclick="ons.openActionSheet({
-            cancelable: true,
-                buttons: [
-                    'Delete',
-                    {
-                        label: 'Cancel',
-                        icon: 'md-close'
-                    }
-                ]
-            }).then(function (index) {
-              console.log(index); 
-                if(index===0){
-                    deletePin({{id}});
-                } 
-            })">
-        <ons-icon icon="fa-trash-o"></ons-icon>&nbsp&nbsp
-        
-        
-    </ons-button><br>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Patua+One" rel="stylesheet">
+    <link rel="stylesheet" href="css/onsenui.css">
+    <link rel="stylesheet" href="css/onsen-css-components.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/onsenui.min.js"></script>
+    <script src="js/cordova.js"></script>
+    <script src="js/index2.js"></script>
+    <script src="js/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.js"></script>
+    <script>
+        function initMap() {
+
+            document.addEventListener("init", function (event) {
+                myMap();
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjdNfJ3PB8sehpRknmnAB6rXpxTSHeBzg&callback=initMap"></script>
+    <script id="template" type="x-tmpl-mustache">
+        <ons-button class="option-arrow" modifier="quiet" onclick="ons.openActionSheet({
+                cancelable: true,
+                    buttons: [
+                        'Delete',
+                        {
+                            label: 'Cancel',
+                            icon: 'md-close'
+                        }
+                    ]
+                }).then(function (index) { 
+                    if(index===0){
+                        deletePin({{id}});
+                    } 
+                })">
+            <ons-icon icon="ion-close-round"></ons-icon>
+        </ons-button><br>
+        <div class="tweet-header">
+            <span class="list-item__title"><U><b>{{buliding}}&nbsp;#{{room}}</b></U></span>
+            <span id="dateCss" class="list-item__subtitle">{{day}}/{{month}}/{{year}}&nbsp;&nbsp;&nbsp;{{timeline}}</span>
+            <span class="list-item__content"><h4><ons-icon id="des" size "20px" icon="ion-paperclip"></ons-icon>{{description}}</h4></span>
+            <img src="{{photo}}" style="width:100%">
         </div>
         <br>
-  </script>
-  <script>
-    window.fn = {};
-
-    window.fn.open = function () {
-      var menu = document.getElementById('menu');
-      menu.open();
-    };
-
-    window.fn.load = function (page) {
-      var content = document.getElementById('content');
-      var menu = document.getElementById('menu');
-      content.load(page)
-        .then(menu.close.bind(menu));
-    };
-
-    function goBack() {
-      history.go(0);
-    }
-  </script>
+        <hr>
+    </script>
 </head>
 
-<style>
-
-</style>
-
-
-
 <body>
-
-  <ons-splitter>
-    <ons-splitter-side id="menu" side="left" width="220px" collapse>
-      <ons-page>
-  
-        <ons-list>
-          <ons-list-item modifier="nodivider"  tappable>
-            <div class="left">
-              <ons-icon icon="fa-home"></ons-icon>
+    <div id="test">test</div>
+    <img src="" alt="">
+    <ons-page ng-controller="yourController">
+        <ons-toolbar>
+            <div class="center">
+                <ons-icon class="set" icon="ion-ios-pricetags" id="iconHead" size="25px"></ons-icon>
+                <b id="head">PSU Pin</b>
             </div>
-            <ons-list-item onclick="fn.load('home.html')" tappable>
-              Home
-            </ons-list-item>
-          </ons-list-item>
-
-
-          <ons-list-item modifier="nodivider"  tappable>
-            <div class="left">
-              <ons-icon icon="ion-person"></ons-icon>
-            </div>
-            <ons-list-item onclick="fn.load('Contact.html')" tappable>
-                Contact
-            </ons-list-item>
-          </ons-list-item>
-
-        </ons-list>
-      </ons-page>
-    </ons-splitter-side>
-    <ons-splitter-content id="content" page="home.html"></ons-splitter-content>
-  </ons-splitter>
-  
-
-  <!-- home -->
-  <template id="home.html">
-    <ons-page>
-        
-      <ons-toolbar>
-        <div id = "head"class="center">PSUPIN</div>
-        <div class="left">
-          <ons-toolbar-button onclick="fn.open()">
-            <ons-icon icon="fa-bars"></ons-icon>
-          </ons-toolbar-button> 
-        </div> 
-      </ons-toolbar>
-     
-
-          
-        
-      
-      <ons-tabbar swipeable position="auto">
-
-        <ons-tab page="time.html" id="timetab" label="Timeline" icon="fa-home" active></ons-tab>
-        <ons-tab page="new.html" label="New Pin" icon="fa-thumb-tack" active-icon="fa-plus-square"></ons-tab>
-        <ons-tab page="map.html" label="Pin Map" icon="fa-globe" badge="" active-icon="fa-globe"></ons-tab>
-      </ons-tabbar>
-      
+        </ons-toolbar>
+        <ons-tabbar swipeable position="auto">
+            <ons-tab page="post.html" id="Timeline" label="Timeline" icon="ion-ios-clock" badge="" active></ons-tab>
+            <ons-tab page="addPic.html" label="Post" icon="ion-ios-camera" active-icon="ion-camera"></ons-tab>
+            <ons-tab page="mapPin.html" label="Map" icon="ion-ios-location" active-icon="ion-ios-location"></ons-tab>
+        </ons-tabbar>
     </ons-page>
-    
-  </template>
 
-
-
-<!-- contact -->  
-  <template id="Contact.html">
-    <ons-page  >
-      <ons-toolbar>
-      <div class="left"><ons-back-button onclick="goBack()">Back</ons-back-button></div>
-        <div class="right">
-     
-          <ons-toolbar-button onclick="fn.open()">
-            <ons-icon icon="md-menu"></ons-icon>
-          </ons-toolbar-button>
-        </div>
-      
-      </ons-toolbar><br>
-      <div class="row">
-    <div class="col-md-6 col-md-offset-3" align="center">
-    <h3><Font color="Red">CONTACT </Font></h3><br>
-    <table bgcolor="plum"><tr><td style="border:3px dashed white;" bgcolor="white">
-                             
-  
-    <i class="fa fa-envelope-o"></i>
-    <span>bag00000@hotmail.com</span><br><br>
-    <i class="fa fa-phone"></i>
-    <span>0950931400</span><br><br>
-    <i class="fa fa-facebook"></i>
-    <span>Kaoniam Saran</span><br>
-  
-</td></tr></table>
-  </div>
- </div>
- 
-</ons-page>
-</template>
-                              
-
-
-
-  <!-- timeline -->
-
-  <template id="time.html">
-    <ons-page id="time">
-    
-      <div id="pins" align="center">
-        
-      </div>
-
-
-
-      <center><table class="table" style="width:100%;">
+    <template id="post.html">
+            <ons-page id="Timeline" style="width: 100%;">
+              <div id="pins">
           
-              <tr style="width:100%;">
-                <td style="width:100%;">
-
-                    
+          
+                 
+                <center><table class="table" style="width:100%;">
+              
+                  <tr style="width:100%;">
+                    <td style="width:100%;">
+                        <ons-card class="post">
+                            <ons-list-item class="post_title">
+                              <div class="left">
+                                <img class="list-item__thumbnail" src="https://scontent.fbkk2-1.fna.fbcdn.net/v/t1.0-9/16830815_223009561505194_5803256392347944605_n.jpg?oh=4b5fa14ea897ed31b5ea66775b0aa228&oe=5AA35F8A" >
+                              </div>
+                              <div class="center">
+                                <div class="list-item__title"><b>Khanchai Khongngod</b></div>
+                                <div class="list-item__subtitle" style="font-size: 12px">3 HOUR AGO</div>
+                              </div>
+                            </ons-list-item>
+                        
+                            <div style="text-align: center; position: relative;" ondblclick="like(1)"><br>
+                           <img src="http://s2.dmcdn.net/Oc4Bb/1280x720-8jT.jpg" alt="" width="80%">
+                              <img class="post-image" src="{{photo}}">
+                            </div>
+                        
+                            <ons-list-item class="post-button-bar" modifier="nodivider">
+                              <div class="center" style="padding-top: 0px">
+                                <ons-button class="post-button" modifier="quiet" onclick="like(1)"><ons-icon id="button-post-like-1" icon="fa-thumbs-o-up"></ons-icon> 99 Like</ons-button>        
+                              </div>
+                            </ons-list-item>
+                            <div class="post-caption"><b>แคนทีนใหม่</b> <br>พื้นถนนหน้าแคนทีนใหม่ลื่นมาก ระวังกันด้วยนะ</div>
+                          </ons-card>
+                    </td>
+                  </tr>
+                  <tr style="width:100%;">
+                      <td style="width:100%;">
+                  
+          
                     <ons-card class="post">
-                        <img style ="width:80px" class="preview-image" src="img/logopsupin.png">
                         <ons-list-item class="post_title">
                           <div class="left">
-                            <img class="list-item__thumbnail" src="http://enadcity.org/enadcity/wp-content/uploads/2017/02/profile-pictures.png" >
+                            <img class="list-item__thumbnail" src="https://scontent.fbkk2-1.fna.fbcdn.net/v/t1.0-9/22366785_1075353955935271_7058172593850971996_n.jpg?oh=9ecd3079a94b0a5581a3f44533077284&oe=5A627DCA" >
                           </div>
                           <div class="center">
-                            <div class="list-item__title"><b>Saran Kaoniom</b></div>
-                            <div class="list-item__subtitle" style="font-size: 12px">1 DAY</div>
+                            <div class="list-item__title"><b>Kalyarat Nimkorn</b></div>
+                            <div class="list-item__subtitle" style="font-size: 12px">4 HOUR AGO</div>
                           </div>
                         </ons-list-item>
                     
                         <div style="text-align: center; position: relative;" ondblclick="like(1)"><br>
-                       <img src="http://www.en.psu.ac.th/images/inter-news/2016/10/3/01_PSU_Phuket.jpg" alt="" width="100%">
+                       <img src="http://www.educationabroadasia.com/wp-content/uploads/2016/02/psu-phuket-sports-facility-education-abroad-asia.jpg" alt="" width="80%">
                           <img class="post-image" src="{{photo}}">
                         </div>
                     
                         <ons-list-item class="post-button-bar" modifier="nodivider">
                           <div class="center" style="padding-top: 0px">
-                            <ons-button class="post-button" modifier="quiet" onclick="like(1)"><ons-icon id="button-post-like-1" icon="fa-thumbs-o-up"></ons-icon> 15 Like</ons-button>        
+                            <ons-button class="post-button" modifier="quiet" onclick="like(1)"><ons-icon id="button-post-like-1" icon="fa-thumbs-o-up"></ons-icon> 99 Like</ons-button>        
                           </div>
                         </ons-list-item>
-                        <div class="post-caption"><b>beauty</b> </div>
+                        <div class="post-caption"><b>ตึก8</b> <br>ตึกใหม่กำลังสร้างระวังกันด้วยนะ</div>
                       </ons-card>
-                </td>
-              </tr>
+                    </td>
+                  </tr>
+                </table></center></div>
+                
+          
+              </div>
+            </ons-page>
+          </template>
 
+    <template id="addPic.html">
+        <ons-page id="addPic">
+               
+                    
+            <div class="center" id="containerContent">
+                <div class="row">
+                    <img src="" style="width:100%" id="preview">
+                </div>
+                <div class="row">
+                    <ons-button modifier="large">
+                        <ons-icon id="takephoto" icon="ion-ios-camera" class="center" size="50px"></ons-icon>
+                    </ons-button>
+                </div>
+                <div class="row">
+                    <ons-icon class="set" icon="ion-ios-pricetags" size="20px"></ons-icon>
+                    <ons-select id="choose-sel" onchange="editSelects(event)" class="size">
+                        <option value="อาคารเรียน">อาคารเรียน</option>
+                        <option value="หอพัก">หอพัก</option>
+                        <option value="ห้องเรียน">ห้องเรียน</option>
+                        <option value="มลพิษ">มลพิษ</option>
+                        <option value="ต้นไม้">ต้นไม้</option>
+                        <option value="ทางเท้า">ทางเท้า</option>
+                    </ons-select>
+                </div>
+               
+                <div class="row">
+                    <ons-icon class="set" icon="ion-ios-compose" size="20px"></ons-icon>
+                    <ons-input class="size" id="desc" modifier="underbar" placeholder="ข้อเสนอแนะ" float></ons-input>
+                </div>
+            </div>
+            <ons-button modifier="large" id="addPin">
+                post
+            </ons-button>
+        </ons-page>
+    </template>
 
-              <center><table class="table" style="width:100%;">
-                  
-                      <tr style="width:100%;">
-                        <td style="width:100%;">
-        
-                            
-                            <ons-card class="post">
-                                <ons-list-item class="post_title">
-                                  <div class="left">
-                                    <img class="list-item__thumbnail" src="http://enadcity.org/enadcity/wp-content/uploads/2017/02/profile-pictures.png" >
-                                  </div>
-                                  <div class="center">
-                                    <div class="list-item__title"><b>Saran Kaoniom</b></div>
-                                    <div class="list-item__subtitle" style="font-size: 12px">1 WEEK</div>
-                                  </div>
-                                </ons-list-item>
-                            
-                                <div style="text-align: center; position: relative;" ondblclick="like(1)"><br>
-                               <img src="http://www.psu.ac.th/sites/files/n7900_PSUTH170215_07.jpg " alt="" width="100%">
-                                  <img class="post-image" src="{{photo}}">
-                                </div>
-                            
-                                <ons-list-item class="post-button-bar" modifier="nodivider">
-                                  <div class="center" style="padding-top: 0px">
-                                    <ons-button class="post-button" modifier="quiet" onclick="like(1)"><ons-icon id="button-post-like-1" icon="fa-thumbs-o-up"></ons-icon> 36 Like</ons-button>        
-                                  </div>
-                                </ons-list-item>
-                                <div class="post-caption"><b>bin</b> </div>
-                              </ons-card>
-                        </td>
-                      </tr>
+    <template id="mapPin.html">
+        <ons-page id="mapPin">
+            <div id="googleMap">Map error</div>
             
-    </ons-page>
-  </template>
+        </ons-page>
 
+    </template>
 
-
-  <!-- newpin -->
-  <template id="new.html">
-    <ons-page id="new">
-      <section>
-        <img style ="width:305px"class="preview-image" src="https://icon-icons.com/icons2/495/PNG/512/camera-live-view-off_icon-icons.com_48672.png">
-      </section>
-      <section style="text-align: center;">
-        <button id="addPic" class="takephoto bold" onclick="tackpic()">Take a Photo</button><br>
-      </section>
-      <br>
-      <section style="padding: 0px;text-align: center;" class="preview-image">
-        <ons-input style="width:100%;" input-id="desc" id="desc" modifier="underbar" placeholder="Comment"></ons-input>
-      </section>
-      <br>
-      <section style="text-align: center;">
-        <button class="takephoto bold" src="" onclick="add()">Submit</button>
-      </section>
-
-    </ons-page>
-  </template>
-
-
-  <!-- map -->
-  <template id="map.html">
-    <ons-page id="map">
-      <div id="map">
-          <script>
-              function initMap(){
-                // Map options
-                var options = {
-                  zoom:15,
-                  center:{lat:7.894762,lng: 98.352077}
-                }
-          
-                // New map
-                var map = new google.maps.Map(document.getElementById('map'), options);
-          
-                // Listen for click on map
-                google.maps.event.addListener(map, 'click', function(event){
-                  // Add marker
-                  addMarker({coords:event.latLng});
-                });
-
-                var markers = [
-        {
-          coords:{lat:7.894762,lng:98.352077},
-          iconImage:'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-          content:'<h1>PSU</h1>'
-        },
-        
-      ];
-
-      
-      for(var i = 0;i < markers.length;i++){
-      
-        addMarker(markers[i]);
-      }
-
-      function addMarker(props){
-        var marker = new google.maps.Marker({
-          position:props.coords,
-          map:map,
-        });
-
-        
-        if(props.iconImage){
-          marker.setIcon(props.iconImage);
-        }
-
-        if(props.content){
-          var infoWindow = new google.maps.InfoWindow({
-            content:props.content
-          });
-
-          marker.addListener('click', function(){
-            infoWindow.open(map, marker);
-          });
-        }
-      }
-    }
-  </script>
-            <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVxdGwKlwXmshUyO2bPMIXMyFVgRvdY7Y&callback=initMap">
-            </script>
-      </div>
-
-
-    </ons-page>
-  </template>
-
-
-
-  <script type="text/javascript" src="cordova.js"></script>
-  <script type="text/javascript" src="index.js"></script>
 
 </body>
-
 
 </html>

@@ -1,146 +1,141 @@
-/*
-*  This event listener will populate the top of the home screen with user stories when the page is initialized.
-*  It uses the generateStoryBubbles function to do so.
-*/
+ons.ready(function () {
 
-document.addEventListener('init', function (event) {
+    initTimeline();
 
-  var page = event.target;
+    var tabar = document.querySelector('ons-tabbar');
+    tabar.addEventListener('postchange', function (event) {
+        if (event.index == 0) {
+            initTimeline(event);
+            var login = function() {
+                var username = document.getElementById('username').value;
+                var password = document.getElementById('password').value;
+              
+                if (username === 'bob' && password === 'secret') {
+                  ons.notification.alert('Congratulations!');
+                }
+                else {
+                  ons.notification.alert('Incorrect username or password.');
+                }
+              };
+        }
+    });
+    window.fn = {};
+    
+    window.fn.open = function() {
+      var menu = document.getElementById('menu');
+      menu.open();
+    };
+    
+    window.fn.load = function(page) {
+      var content = document.getElementById('content');
+      var menu = document.getElementById('menu');
+      content.load(page)
+        .then(menu.close.bind(menu));
+    };
+    $('#takephoto').click(function () {
+        console.log("Take a photo");
+        navigator.camera.getPicture(onSuccess, onFail, {
+            quality: 50,
+            destinationType: Camera.DestinationType.FILE_URI
+        });
 
-  if (page.id == "home-page") {
-    var stories = page.querySelector('#stories');
-    generateStoryBubbles(stories);
+        function onSuccess(imageURI) {
+            console.log(imageURI);
+            var image = $("#preview");
+            image.attr("src", imageURI);
+        }
 
-  }
+        function onFail(message) {
+            alert('Failed because: ' + message);
+        }
+    });
+
+    var onSuccess = function (position) {
+        $("#location").val(position.coords.latitude + "," + position.coords.longitude);
+        console.log('Latitude: ' + position.coords.latitude + '\n' +
+            'Longitude: ' + position.coords.longitude + '\n' +
+            'Altitude: ' + position.coords.altitude + '\n' +
+            'Accuracy: ' + position.coords.accuracy + '\n' +
+            'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '\n' +
+            'Heading: ' + position.coords.heading + '\n' +
+            'Speed: ' + position.coords.speed + '\n' +
+            'Timestamp: ' + position.timestamp + '\n');
+
+        //Initial Map
+        var map;
+        var div = document.getElementById("map_canvas");
+        var map = plugin.google.maps.Map.getMap(div);
+        map.one(plugin.google.maps.event.MAP_READY, function () {
+            //alert("map_canvas : ready.");           
+            map.animateCamera({
+                target: {lat: position.coords.latitude, lng: position.coords.longitude},
+                zoom: 17,
+                tilt: 0,
+                bearing: 140,
+                duration: 5000,
+                padding: 0  // default = 20px
+              }, function() {
+                map.addMarker({
+                    'position': {
+                      lat: position.coords.latitude,
+                      lng: position.coords.longitude
+                    }
+                });
+              });                                       
+        });
+
+    };
+
+    // onError Callback receives a PositionError object
+    //
+    function onError(error) {
+        console.log('code: ' + error.code + '\n' +
+            'message: ' + error.message + '\n');
+    }
+
+    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+
+
 
 });
 
-//The show event listener does the same thing as the one above but on the search page when it's shown.
+window.fn = {};
 
-document.addEventListener('show', function (event) {
-  var page = event.target;
+window.fn.open = function() {
+  var menu = document.getElementById('menu');
+  menu.open();
+};
 
-  if (page.id == "search-page") {
-    var channels = page.querySelector('#channels');
-    generateStoryBubbles(channels);
+
+window.fn.load = function(page) {
+  var content = document.getElementById('content');
+  var menu = document.getElementById('menu');
+  content.load(page)
+    .then(menu.close.bind(menu));
+};
+function editSelects(event) {
+    document.getElementById('choose-sel').removeAttribute('modifier');
+    if (event.target.value == 'material' || event.target.value == 'underbar') {
+      document.getElementById('choose-sel').setAttribute('modifier', event.target.value);
+    }
   }
-});
-
-/*
-* This function is used to toggle the grid/list display of the posts in the profile page as well as
-* change the color of the buttons to show which is the current view.
-*/
-
-function display(id) {
-  document.getElementById("list").style.color = "#1f1f21";
-  document.getElementById("grid").style.color = "#1f1f21";
-  document.getElementById(id).style.color = "#5fb4f4";
-
-  document.getElementById("list_view").style.display = "none";
-  document.getElementById("grid_view").style.display = "none";
-  document.getElementById(id + "_view").style.display = "block";
-}
-
-//The generateStoryBubbles function is used to create the carousel items be used as stories by the upper two events.
-
-function generateStoryBubbles(element) {
-  for (var i = 0; i < 9; i++) {
-    element.appendChild(ons.createElement(
-      '<ons-carousel-item>' +
-      '<div class="story">' +
-      '<div class="story-thumbnail-wraper unread"><img class="story-thumbnail" src="assets/img/profile-image-0' + (i + 1) + '.png" onclick="readStory(this)"></div>' +
-      '<p>david_graham</p>' +
-      '</div>' +
-      '</ons-carousel-item>'
-    ));
+  function addOption(event) {
+    const option = document.createElement('option');
+    let text = document.getElementById('optionLabel').value;
+    option.innerText = text;
+    text = '';
+    document.getElementById('dynamic-sel').appendChild(option);
   }
-}
-
-//The Like function is used to make the white heart appear in front of the picture as well as make the like button into a red heart and vice versa.
-
-var like = function (num) {
-  if (document.getElementById("button-post-like-" + num).classList.contains("like")) {
-    document.getElementById("button-post-like-" + num).classList.remove("ion-ios-heart", "like");
-    document.getElementById("button-post-like-" + num).classList.add("ion-ios-heart-outline");
-  } else {
-    document.getElementById("button-post-like-" + num).classList.remove("ion-ios-heart-outline");
-    document.getElementById("button-post-like-" + num).classList.add("ion-ios-heart", "like");
-    document.getElementById("post-like-" + num).style.opacity = 1;
-
-    setTimeout(function () {
-      document.getElementById("post-like-" + num).style.opacity = 0;
-    }, 600);
-  }
-}
-
-//The readStory function is used to change the red circle around a new story into grey after tapping on the new storry (thus reading it)
-
-var readStory = function (event) {
-  event.parentNode.classList.remove("unread");
-  event.parentNode.classList.add("read");
-}
-
-function tackpic() {
-  console.log('ready');
-
-  console.log("Take a photo");
-  navigator.camera.getPicture(onSuccess, onFail, {
-    quality: 50,
-    destinationType: Camera.DestinationType.FILE_URI
-  });
-
-  function onSuccess(imageURI) {
-    console.log(imageURI);
-    var image = $("#preview");
-    image.attr("src", imageURI);
-  }
-
-  function onFail(message) {
-    alert('Failed because: ' + message);
-  }
-
-}
-
-$.get("http://localhost:3000/pins", function (data) {
-  var test = $('#template').html();
-  for (var i = 0; i < data.length; i++) {
-    var rendered = Mustache.render(test, data[i]);
-    $("#pins").append(rendered);
-  }
-});
 function initTimeline(event) {
 
-  var url = "http://localhost:3000/pins";
-  $.get(url, function (data) {
-    $("#timetab").attr("badge", data.length);
-    $.each(data, function (index, item) {
-      $.get('card.html', function (template) {
-        var rendered = Mustache.render(template, item);
-        $("#pins").append(rendered);
-      });
+    var url = "http://psupin.azurewebsites.net/pins";
+    $.get(url, function (data) {
+        $("#timetab").attr("badge", data.length);
+        $.each(data, function (index, item) {
+            $.get('card.html', function (template) {
+                var rendered = Mustache.render(template, item);
+                $("#pins").append(rendered);
+            });
+        });
     });
-  });
-}
-function add() {
-  var lat;
-  var lng;
-
-  $.post("http://localhost:3000/pins", {
-    photo: "http://img.painaidii.com/images/20160629_3_1467191751_613818.jpg",
-    lat: lat,
-    lng: lng,
-    description: $("#desc").val()
-  });
-  alert('complete');
-  location.reload('index.html');
-}
-function deletePin(id) {
-  var url = "http://localhost:3000/pins";
-  $.ajax({
-      url: url + "/" + id,
-      method: "DELETE",
-      success: function (data, status, xhr) {
-          location.reload();
-      }
-  });
 }

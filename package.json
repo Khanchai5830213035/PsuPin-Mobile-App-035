@@ -1,6 +1,6 @@
 {
-  "name": "com.example.praew",
-  "displayName": "HelloWorld",
+  "name": "com.example.psu",
+  "displayName": "pin",
   "version": "1.0.0",
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
   "main": "index.js",
@@ -11,16 +11,28 @@
   "license": "Apache-2.0",
   "dependencies": {
     "cordova-android": "^6.3.0",
-    "cordova-browser": "^5.0.1",
-    "cordova-plugin-whitelist": "^1.3.2"
+    "cordova-ios": "^4.5.2",
+    "cordova-plugin-camera": "^2.4.1",
+    "cordova-plugin-compat": "^1.2.0",
+    "cordova-plugin-geolocation": "^2.4.3",
+    "cordova-plugin-whitelist": "^1.3.2",
+    "ls": "^0.2.1",
+    "material-design-icons": "^3.0.1"
   },
   "cordova": {
     "plugins": {
-      "cordova-plugin-whitelist": {}
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-geolocation": {
+        "GEOLOCATION_USAGE_DESCRIPTION": " "
+      },
+      "cordova-plugin-camera": {
+        "CAMERA_USAGE_DESCRIPTION": " ",
+        "PHOTOLIBRARY_USAGE_DESCRIPTION": " "
+      }
     },
     "platforms": [
       "android",
-      "browser"
+      "ios"
     ]
   }
 }

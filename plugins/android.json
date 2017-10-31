@@ -8,13 +8,13 @@
   },
   "installed_plugins": {
     "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "com.example.psupin"
+      "PACKAGE_NAME": "com.example.psu"
     },
     "cordova-plugin-geolocation": {
-      "PACKAGE_NAME": "com.example.psupin"
+      "PACKAGE_NAME": "com.example.psu"
     },
     "cordova-plugin-camera": {
-      "PACKAGE_NAME": "com.example.psupin"
+      "PACKAGE_NAME": "com.example.psu"
     }
   },
   "dependent_plugins": {}
